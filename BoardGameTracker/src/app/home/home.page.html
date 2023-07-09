@@ -1,0 +1,41 @@
+<!--show login and register if not logged in, if logged in say hello username, -->
+<ion-header>
+  <ion-toolbar>
+    <ion-header>
+      <ion-toolbar>
+        <div class="header-container">
+          <ion-title>Home</ion-title>
+          <ion-button (click)="openGames()">Open saved games</ion-button>
+        </div>
+      </ion-toolbar>
+    </ion-header>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!isLoggedIn" routerLink="/login">Login</ion-button>
+      <ion-button *ngIf="!isLoggedIn" routerLink="/register">Register</ion-button>
+      <ion-button *ngIf="isLoggedIn" (click)="logout()">Logout</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Search Bar -->
+  <ion-searchbar placeholder="Search for board games" (ionChange)="onSearch($event)"></ion-searchbar>
+
+  <!-- Featured Games -->
+  <h2>Featured Games</h2>
+  <ion-list>
+    <ion-item *ngFor="let game of featuredGames">
+      <ion-thumbnail slot="start">
+        <img [src]="game.images.small" alt="Game Image">
+      </ion-thumbnail>
+      <ion-label>
+        <h3>{{ game.name }}</h3>
+        <div class="game-description" [innerHTML]="game.description"></div>
+        <button ion-button color="primary" routerLink="/game-details/{{ game.id }}" class="ion-padding">
+          Read more
+        </button>        
+      </ion-label>
+    </ion-item>
+  </ion-list>  
+</ion-content>
+

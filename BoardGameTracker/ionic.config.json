@@ -1,0 +1,7 @@
+{
+  "name": "BoardGameTracker",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

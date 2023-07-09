@@ -1,0 +1,10 @@
+<!--iterate through and print out this.games-->
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of this.games ; let i = index">
+      <ion-label>Item {{i + 1}}</ion-label>
+      <ion-label>User ID: {{item.userID}}</ion-label>
+      <ion-label>Game: {{item.game.name}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,33 @@
+<!--show the game details-->
+<div *ngIf="isGameLoaded">
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!isLoggedIn" routerLink="/login">Login</ion-button>
+      <ion-button *ngIf="!isLoggedIn" routerLink="/register">Register</ion-button>
+      <ion-button *ngIf="isLoggedIn" routerLink="/profile">Hello!</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <ion-thumbnail slot="start">
+        <img [src]="game.images.small" alt="Game Image" width="300" height="300">
+      </ion-thumbnail>
+      <ion-label>
+        <h3>{{ game.name }}</h3>
+        <div class="game-description" [innerHTML]="game.description"></div>
+      </ion-label>
+    </div>
+      <p>Price: {{game.price | currency}}</p>
+      <button ion-button color="primary" (click)="addToGameList()">Add to games list</button>
+    </div>
+  </div>
+</div>
+
