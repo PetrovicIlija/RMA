@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent  implements OnInit {
-  loginData = { username:'', password:'' };
+  loginData = { email:'', password:'' };
   constructor(
     private authService: AuthService,
     private router: Router
@@ -17,7 +17,7 @@ export class LoginComponent  implements OnInit {
   ngOnInit() {
   }
   login() {
-    this.authService.login(this.loginData.username, this.loginData.password);
+    this.authService.login(this.loginData.email, this.loginData.password);
     this.router.navigate(['/home']);
   }
 }

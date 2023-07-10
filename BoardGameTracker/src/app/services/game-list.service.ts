@@ -3,8 +3,8 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth.service';
-import { Firestore, collectionData } from '@angular/fire/firestore';
-import { collection } from 'firebase/firestore';
+import { Firestore, collectionData, docData } from '@angular/fire/firestore';
+import { addDoc, collection, doc } from 'firebase/firestore';
 
 
 @Injectable({
@@ -18,11 +18,16 @@ export class GameListService {
   }
   getGames() {
     const gamesRef = collection(this.firestore, 'games');
-    return collectionData(gamesRef);
+    return collectionData(gamesRef, {idField : 'id'});
   }
-  addGame(userID : string, gameID : string, gameTitle : string) {
+  addGame(userID : string | null, gameID : string) {
     const gamesRef = collection(this.firestore, 'games');
-    return collectionData(gamesRef);
+    return addDoc(gamesRef, {userID, gameID});
   }
+  getGame(id : string) {
+    const gameDocRef = doc(this.firestore, 'games/${id}');
+    return docData(gameDocRef, {idField : 'id'});
+  }
+
 
 }

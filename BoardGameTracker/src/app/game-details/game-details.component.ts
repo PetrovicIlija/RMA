@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BoardGameService } from '../board-game.service'; 
 import { Game } from '../models/game.model';
 import { AuthService } from '../auth.service';
+import { GameListService } from '../services/game-list.service';
 
 @Component({
   selector: 'app-game-details',
@@ -10,9 +11,6 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./game-details.component.scss'],
 })
 export class GameDetailsComponent  implements OnInit {
-addToGameList() {
-throw new Error('Method not implemented.');
-}
   gameId: string | null = null;
   game : any = {};
   isLoggedIn: boolean = false;
@@ -20,7 +18,8 @@ throw new Error('Method not implemented.');
   constructor(
     private route: ActivatedRoute,
     private boardGameService: BoardGameService,
-    private authService: AuthService
+    private authService: AuthService,
+    private gameListService: GameListService
   ) { }
 
   ngOnInit() {
@@ -36,4 +35,9 @@ throw new Error('Method not implemented.');
     }
     );
 }
+addToGameList() {
+  this.gameListService.addGame(this.authService.getCurrentUserId(), this.gameId ?? '').then(() => {
+    console.log('Game added to list');
+  });
+  }
 }
