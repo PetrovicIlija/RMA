@@ -54,7 +54,8 @@ isLoggedIn: boolean = false;
     this.router.navigate(['/games-list']);
     }
     logout() {
-    throw new Error('Method not implemented.');
+    this.authService.logout();
+    this.router.navigate(['/login']);
     }
   
 }
