@@ -1,4 +1,3 @@
-<!--iterate through and print out this.games-->
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -14,15 +13,17 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let item of this.games ; let i = index">
-      <ion-thumbnail slot="start">
-        <img [src]="item.game.images.small" alt="Game Image">
-      </ion-thumbnail>
-      <ion-label>Game: {{item.game.name}}</ion-label>
-      <ion-label>Price: {{item.game.price | currency}}</ion-label>
-      <ion-label>Players: {{item.game.players}}</ion-label>
-      <ion-button (click)="deleteGame(this.games[i].id)">Delete</ion-button>
-    </ion-item>
-  </ion-list>
+  <div *ngIf="isGameLoaded">
+    <ion-list>
+      <ion-item *ngFor="let item of this.games ; let i = index">
+        <ion-thumbnail slot="start">
+          <img [src]="item.game.images.small" alt="Game Image">
+        </ion-thumbnail>
+        <ion-label>Game: {{item.game.name}}</ion-label>
+        <ion-label>Price: {{item.game.price | currency}}</ion-label>
+        <ion-label>Players: {{item.game.players}}</ion-label>
+        <ion-button (click)="deleteGame(this.games[i].id)">Delete</ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

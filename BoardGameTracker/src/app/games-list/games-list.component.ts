@@ -11,6 +11,7 @@ import { BoardGameService } from '../board-game.service';
 export class GamesListComponent  implements OnInit {
   games : any;
   isLoggedIn: boolean = false;
+  isGameLoaded: boolean = false;
   constructor(
     private gameListService : GameListService,
     private authService : AuthService,
@@ -36,14 +37,18 @@ export class GamesListComponent  implements OnInit {
       this.gameListService.getGames().subscribe(games => {
         this.games = games;
         this.games = this.games.filter((game: any) => {
-          return game.userID == this.authService.getCurrentUserId()
+          return game.userID == this.authService.getCurrentUserId();
         });
-        for (let game of this.games) {
-          this.boardGameService.getGameDetails(game.gameID).subscribe((data) => {
-            game.game = data.games[0];
-            console.log(game.game);
-          });
-        }
+        const gameDetailPromises = this.games.map((game: any) => {
+          return this.boardGameService.getGameDetails(game.gameID).toPromise();
+        });
+        Promise.all(gameDetailPromises).then((gameDetails: any[]) => {
+          for (let i = 0; i < gameDetails.length; i++) {
+            this.games[i].game = gameDetails[i].games[0];
+            console.log(this.games[i].game);
+          }
+          this.isGameLoaded = true;
+        });
       });
     }
 }
