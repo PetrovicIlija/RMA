@@ -17,11 +17,10 @@ export class AuthService {
   isLoggedIn() {
     return new Promise((resolve, reject) => {
       onAuthStateChanged(this.auth, (user) => {
-        if (user) {
-          resolve(true);
-        } else {
-          resolve(false);
+        if (!user) {
+          reject(false);
         }
+        resolve(true);
       });
     });
   }
