@@ -10,6 +10,7 @@ import { BoardGameService } from '../board-game.service';
 })
 export class GamesListComponent  implements OnInit {
   games : any;
+  isLoggedIn: boolean = false;
   constructor(
     private gameListService : GameListService,
     private authService : AuthService,
@@ -17,18 +18,32 @@ export class GamesListComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.gameListService.getGames().subscribe(games => {
-      this.games = games;
-      this.games = this.games.filter((game: any) => {
-        return game.userID == this.authService.getCurrentUserId()
-      });
-      for (let game of this.games) {
-        this.boardGameService.getGameDetails(game.gameID).subscribe((data) => {
-          game.game = data.games[0];
-          console.log(game.game);
-        });
-      }
-    });
+    this.loadGames();
+    this.authService.isLoggedIn().then((loggedIn) => {
+      this.isLoggedIn = true;
+    }
+    );
   }
+  deleteGame(gameIDToDelete: string) {
+    console.log(gameIDToDelete);
+    this.gameListService.deleteGame(gameIDToDelete).then(() => {
+      console.log('Game deleted');
+      this.loadGames();
+    });
+    }
 
+    loadGames() {
+      this.gameListService.getGames().subscribe(games => {
+        this.games = games;
+        this.games = this.games.filter((game: any) => {
+          return game.userID == this.authService.getCurrentUserId()
+        });
+        for (let game of this.games) {
+          this.boardGameService.getGameDetails(game.gameID).subscribe((data) => {
+            game.game = data.games[0];
+            console.log(game.game);
+          });
+        }
+      });
+    }
 }
