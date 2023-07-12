@@ -20,7 +20,6 @@
           <img [src]="item.game.images.small" alt="Game Image">
         </ion-thumbnail>
         <ion-label>Game: {{item.game.name}}</ion-label>
-        <ion-label>Price: {{item.game.price | currency}}</ion-label>
         <ion-label>Players: {{item.game.players}}</ion-label>
         <ion-button (click)="deleteGame(this.games[i].id)">Delete</ion-button>
       </ion-item>

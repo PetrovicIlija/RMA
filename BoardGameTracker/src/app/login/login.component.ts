@@ -9,12 +9,16 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent  implements OnInit {
   loginData = { email:'', password:'' };
+  isLoggedIn: boolean = false;
   constructor(
     private authService: AuthService,
     private router: Router
   ) { }
 
   ngOnInit() {
+    this.authService.isLoggedIn().then((loggedIn) => {
+      this.isLoggedIn = true;
+    });
   }
   login() {
     this.authService.login(this.loginData.email, this.loginData.password);

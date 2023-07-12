@@ -1,4 +1,17 @@
-<!--login page-->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!isLoggedIn" routerLink="/login">Login</ion-button>
+      <ion-button *ngIf="!isLoggedIn" routerLink="/register">Register</ion-button>
+      <ion-button *ngIf="isLoggedIn" routerLink="/profile">Hello!</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 <ion-header>
   <ion-toolbar>
     <ion-title>Login</ion-title>
