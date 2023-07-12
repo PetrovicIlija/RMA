@@ -13,7 +13,6 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
   auth: Auth;
-  //isLoggedIn function which will wait for onAuthStateChanged to return a user
   isLoggedIn() {
     return new Promise((resolve, reject) => {
       onAuthStateChanged(this.auth, (user) => {

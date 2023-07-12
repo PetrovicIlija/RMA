@@ -10,10 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-
-
-featuredGames: any;
-isLoggedIn: boolean = false;
+  featuredGames: any;
+  isLoggedIn: boolean = false;
 
   constructor(
     private boardGameService: BoardGameService,
