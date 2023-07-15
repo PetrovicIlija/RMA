@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import * as firebase from 'firebase/compat/app';
-import { UserCredential } from '@firebase/auth-types';
-import { User } from './models/user.model';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, browserLocalPersistence, Auth, signOut, onAuthStateChanged } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, browserLocalPersistence, Auth, onAuthStateChanged } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
 import { environment } from 'src/environments/environment';
 import { ToastController } from '@ionic/angular';
@@ -54,12 +50,13 @@ export class AuthService {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
+        this.navCtrl.navigateForward('/home');
       }
       )
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorMessage);
+        this.presentToast();
       }
       );
   }  
@@ -88,6 +85,13 @@ export class AuthService {
     }).catch((error) => {
       console.log(error);
     });
+  }
+  presentToast() {
+    const toast = this.toastCtrl.create({
+      message: 'Error: User already exists',
+      duration: 2000
+    });
+    toast.then(toast => toast.present());
   }
 
 

@@ -3,6 +3,7 @@ import { GameListService } from '../services/game-list.service';
 import { AuthService } from '../auth.service';
 import { BoardGameService } from '../board-game.service';
 import { onAuthStateChanged } from 'firebase/auth';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-games-list',
@@ -17,6 +18,7 @@ export class GamesListComponent  implements OnInit {
     private gameListService : GameListService,
     private authService : AuthService,
     private boardGameService: BoardGameService,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() {
@@ -33,7 +35,7 @@ export class GamesListComponent  implements OnInit {
   deleteGame(gameIDToDelete: string) {
     console.log(gameIDToDelete);
     this.gameListService.deleteGame(gameIDToDelete).then(() => {
-      console.log('Game deleted');
+      this.presentToast();
       this.loadGames();
     });
     }
@@ -56,5 +58,12 @@ export class GamesListComponent  implements OnInit {
         });
       });
     }
-    
+    presentToast() {
+      this.toastController.create({
+        message: 'Game removed from your list',
+        duration: 2000
+      }).then((toast) => {
+        toast.present();
+      });
+    }
 }
