@@ -12,6 +12,9 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
+  getAuth() {
+    return this.auth;
+  }
   auth: Auth;
   isLoggedIn() {
     return new Promise((resolve, reject) => {

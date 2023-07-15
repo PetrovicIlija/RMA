@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -19,9 +20,14 @@ export class HomePage implements OnInit {
     private router: Router
     ) {}
   ngOnInit(): void {
-    this.authService.isLoggedIn().then((loggedIn) => {
-      this.isLoggedIn = true;
-    });
+    const auth = this.authService.getAuth();
+    onAuthStateChanged(auth, async (user)=>{
+      if(user){
+          this.isLoggedIn = true;
+      }else{
+          this.isLoggedIn = false;
+      }
+  })
     //get featured games, service returns 3 games
     this.boardGameService.getHighestRankedGames().subscribe(
       (data) => {
