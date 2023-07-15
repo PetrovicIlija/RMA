@@ -6,6 +6,8 @@ import { User } from './models/user.model';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, browserLocalPersistence, Auth, signOut, onAuthStateChanged } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
 import { environment } from 'src/environments/environment';
+import { ToastController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 
 @Injectable({
@@ -31,12 +33,21 @@ export class AuthService {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
+        this.navCtrl.navigateForward('/home');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorMessage);
+        this.showToast();
       });
+  }
+  async showToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'Invalid email or password',
+      duration: 3000, 
+      position: 'bottom' 
+    });
+    toast.present();
   }
   register(email : string, password : string) {
     createUserWithEmailAndPassword(this.auth, email, password)
@@ -80,7 +91,10 @@ export class AuthService {
   }
 
 
-  constructor() {
+  constructor(
+    private toastCtrl: ToastController,
+    private navCtrl: NavController
+  ) {
     initializeApp(environment.firebase);
     this.auth = getAuth();
     this.auth.setPersistence(browserLocalPersistence);

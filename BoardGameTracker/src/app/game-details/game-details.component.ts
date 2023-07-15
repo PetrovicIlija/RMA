@@ -5,6 +5,7 @@ import { Game } from '../models/game.model';
 import { AuthService } from '../auth.service';
 import { GameListService } from '../services/game-list.service';
 import { onAuthStateChanged } from 'firebase/auth';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-game-details',
@@ -20,7 +21,8 @@ export class GameDetailsComponent  implements OnInit {
     private route: ActivatedRoute,
     private boardGameService: BoardGameService,
     private authService: AuthService,
-    private gameListService: GameListService
+    private gameListService: GameListService,
+    public toastController: ToastController
   ) { }
 
   ngOnInit() {
@@ -43,7 +45,15 @@ export class GameDetailsComponent  implements OnInit {
 }
 addToGameList() {
   this.gameListService.addGame(this.authService.getCurrentUserId(), this.gameId ?? '').then(() => {
-    console.log('Game added to list');
+    this.presentToast();
   });
+  }
+  presentToast() {
+    this.toastController.create({
+      message: 'Game added to your list',
+      duration: 2000
+    }).then((toast) => {
+      toast.present();
+    });
   }
 }

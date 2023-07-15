@@ -17,7 +17,9 @@
     <ion-list>
       <ion-item *ngFor="let item of this.games ; let i = index">
         <ion-thumbnail slot="start">
-          <img [src]="item.game.images.small" alt="Game Image">
+          <ion-button routerLink="/game-details/{{ item.game.id }}">
+            <img [src]="item.game.images.small" alt="Game Image">
+          </ion-button>
         </ion-thumbnail>
         <ion-label>Game: {{item.game.name}}</ion-label>
         <ion-label>Players: {{item.game.players}}</ion-label>
@@ -26,3 +28,4 @@
     </ion-list>
   </div>
 </ion-content>
+
