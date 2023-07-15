@@ -5,6 +5,7 @@ import { User } from '../models/user.model';
 import { initializeApp } from 'firebase/app';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { onAuthStateChanged } from 'firebase/auth';
 
 @Component({
   selector: 'app-register',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent  implements OnInit {
   registerForm: FormGroup = new FormGroup({});
+  isLoggedIn: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,6 +24,14 @@ export class RegisterComponent  implements OnInit {
 
   ngOnInit() {
     this.createRegisterForm();
+    const auth = this.authService.getAuth();
+    onAuthStateChanged(auth, async (user)=>{
+      if(user){
+          this.isLoggedIn = true;
+      }else{
+          this.isLoggedIn = false;
+      }
+  })
   }
 
   createRegisterForm() {

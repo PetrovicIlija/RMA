@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { onAuthStateChanged } from 'firebase/auth';
 
 @Component({
   selector: 'app-login',
@@ -16,9 +17,14 @@ export class LoginComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.authService.isLoggedIn().then((loggedIn) => {
-      this.isLoggedIn = true;
-    });
+    const auth = this.authService.getAuth();
+    onAuthStateChanged(auth, async (user)=>{
+      if(user){
+          this.isLoggedIn = true;
+      }else{
+          this.isLoggedIn = false;
+      }
+  })
   }
   login() {
     this.authService.login(this.loginData.email, this.loginData.password);

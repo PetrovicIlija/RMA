@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GameListService } from '../services/game-list.service';
 import { AuthService } from '../auth.service';
 import { BoardGameService } from '../board-game.service';
+import { onAuthStateChanged } from 'firebase/auth';
 
 @Component({
   selector: 'app-games-list',
@@ -20,10 +21,14 @@ export class GamesListComponent  implements OnInit {
 
   ngOnInit() {
     this.loadGames();
-    this.authService.isLoggedIn().then((loggedIn) => {
-      this.isLoggedIn = true;
-    }
-    );
+    const auth = this.authService.getAuth();
+    onAuthStateChanged(auth, async (user)=>{
+      if(user){
+          this.isLoggedIn = true;
+      }else{
+          this.isLoggedIn = false;
+      }
+  })
   }
   deleteGame(gameIDToDelete: string) {
     console.log(gameIDToDelete);

@@ -4,6 +4,7 @@ import { BoardGameService } from '../board-game.service';
 import { Game } from '../models/game.model';
 import { AuthService } from '../auth.service';
 import { GameListService } from '../services/game-list.service';
+import { onAuthStateChanged } from 'firebase/auth';
 
 @Component({
   selector: 'app-game-details',
@@ -26,9 +27,14 @@ export class GameDetailsComponent  implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.gameId = params.get('id');
     });
-    this.authService.isLoggedIn().then((loggedIn) => {
-      this.isLoggedIn = true;
-    });
+    const auth = this.authService.getAuth();
+    onAuthStateChanged(auth, async (user)=>{
+      if(user){
+          this.isLoggedIn = true;
+      }else{
+          this.isLoggedIn = false;
+      }
+  })
     this.boardGameService.getGameDetails(this.gameId ?? '').subscribe((data) => {
       this.game = data.games[0];
       this.isGameLoaded = true;
