@@ -44,6 +44,10 @@ export class GameDetailsComponent  implements OnInit {
     );
 }
 addToGameList() {
+  if(this.gameListService.isGameInList(this.authService.getCurrentUserId(), this.gameId ?? '')){
+    this.presentToast();
+    return;
+  }
   this.gameListService.addGame(this.authService.getCurrentUserId(), this.gameId ?? '').then(() => {
     this.presentToast();
   });

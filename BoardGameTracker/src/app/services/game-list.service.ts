@@ -4,7 +4,8 @@ import { getAuth } from 'firebase/auth';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth.service';
 import { Firestore, collectionData, docData } from '@angular/fire/firestore';
-import { addDoc, collection, deleteDoc, doc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, query, where } from 'firebase/firestore';
+
 
 
 @Injectable({
@@ -32,6 +33,16 @@ export class GameListService {
     const gameDocRef = doc(this.firestore, 'games/' + id);
     console.log('Deleting game with id: ' + id);
     return deleteDoc(gameDocRef);
+  }
+  
+  isGameInList(userID : string | null, gameID : string) {
+    const gamesRef = collection(this.firestore, 'games');
+    const q = query(gamesRef, where('userID', '==', userID), where('gameID', '==', gameID));
+    if(q){
+      return true;
+    }else{
+      return false;
+    }
   }
 
 }
