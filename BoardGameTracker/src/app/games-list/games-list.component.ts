@@ -36,7 +36,6 @@ export class GamesListComponent  implements OnInit {
     console.log(gameIDToDelete);
     this.gameListService.deleteGame(gameIDToDelete).then(() => {
       this.presentToast();
-      this.loadGames();
     });
     }
 
