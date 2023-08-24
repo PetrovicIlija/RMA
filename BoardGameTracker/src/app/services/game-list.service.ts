@@ -4,7 +4,7 @@ import { getAuth } from 'firebase/auth';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth.service';
 import { Firestore, collectionData, docData } from '@angular/fire/firestore';
-import { addDoc, collection, deleteDoc, doc, query, where } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 
 
 
@@ -35,14 +35,26 @@ export class GameListService {
     return deleteDoc(gameDocRef);
   }
   
-  isGameInList(userID : string | null, gameID : string) {
-    const gamesRef = collection(this.firestore, 'games');
-    const q = query(gamesRef, where('userID', '==', userID), where('gameID', '==', gameID));
-    if(q){
-      return true;
-    }else{
+  async isGameInList(userID : string | null, gameID : string) {
+    try {
+      const gamesRef = collection(this.firestore, 'games');
+      const q = query(gamesRef, 
+        where('userID', '==', userID),
+        where('gameID', '==', gameID)
+      );
+      
+      const querySnapshot = await getDocs(q);
+  
+      if (!querySnapshot.empty) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('Error checking game in list:', error);
       return false;
     }
   }
-
+  
+  
 }

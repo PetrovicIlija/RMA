@@ -43,15 +43,21 @@ export class GameDetailsComponent  implements OnInit {
     }
     );
 }
-addToGameList() {
-  if(this.gameListService.isGameInList(this.authService.getCurrentUserId(), this.gameId ?? '')){
+async addToGameList() {
+  try {
+    const isGameInList = await this.gameListService.isGameInList(this.authService.getCurrentUserId(), this.gameId ?? '');
+
+    if (isGameInList) {
+      this.presentToast();
+      return;
+    }
+
+    await this.gameListService.addGame(this.authService.getCurrentUserId(), this.gameId ?? '');
     this.presentToast();
-    return;
+  } catch (error) {
+    console.error('Error:', error);
   }
-  this.gameListService.addGame(this.authService.getCurrentUserId(), this.gameId ?? '').then(() => {
-    this.presentToast();
-  });
-  }
+}
   presentToast() {
     this.toastController.create({
       message: 'Game added to your list',

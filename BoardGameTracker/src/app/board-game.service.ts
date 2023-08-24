@@ -7,11 +7,11 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class BoardGameService {
-  private baseUrl = 'https://api.boardgameatlas.com';
+  
   
   constructor(private http: HttpClient) { }
   searchGames(query: string): Observable<any> {
-    const url = `${this.baseUrl}/api/search`;
+    const url = `${environment.baseUrl}/api/search`;
     const headers = new HttpHeaders().set('Accept', 'application/json');
                                      
     
@@ -24,7 +24,7 @@ export class BoardGameService {
   }
 
   getGameDetails(id: string): Observable<any> {
-    const url = `${this.baseUrl}/api/search`;
+    const url = `${environment.baseUrl}/api/search`;
     const headers = new HttpHeaders().set('Accept', 'application/json');
 
     const params = new HttpParams().set('ids', id)
@@ -35,7 +35,7 @@ export class BoardGameService {
   }
 
   getHighestRankedGames(): Observable<any> {
-    const url = `${this.baseUrl}/api/search`;
+    const url = `${environment.baseUrl}/api/search`;
     const headers = new HttpHeaders().set('Accept', 'application/json');
     const params = new HttpParams().set('order_by', 'rank')
                                    .set('ascending', 'false')
